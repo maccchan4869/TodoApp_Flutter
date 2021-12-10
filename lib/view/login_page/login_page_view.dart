@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:todo/view/register_user_page/register_user_page_view.dart';
 import 'package:todo/view/todo_list_page/todo_list_page_view.dart';
@@ -46,24 +45,30 @@ class LoginPageView extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
                 child: ElevatedButton(
-                  onPressed: () async {
-                    try {
-                      // メール/パスワードでログイン
-                      final FirebaseAuth auth = FirebaseAuth.instance;
-                      await auth.signInWithEmailAndPassword(
-                        email: _id.text,
-                        password: _password.text,
-                      );
-                      // ログインに成功した場合
-                      await Navigator.of(context).pushReplacement(
+                  onPressed: () => {
+                    Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                          return const TodoListPageView();
-                        }),
-                      );
-                    } catch (e) {
-                      print(e.toString());
-                    }
+                      return TodoListPageView();
+                    })),
                   },
+                  // onPressed: () async {
+                  //   try {
+                  //     // メール/パスワードでログイン
+                  //     final FirebaseAuth auth = FirebaseAuth.instance;
+                  //     await auth.signInWithEmailAndPassword(
+                  //       email: _id.text,
+                  //       password: _password.text,
+                  //     );
+                  //     // ログインに成功した場合
+                  //     await Navigator.of(context).pushReplacement(
+                  //       MaterialPageRoute(builder: (context) {
+                  //         return const TodoListPageView();
+                  //       }),
+                  //     );
+                  //   } catch (e) {
+                  //     print(e.toString());
+                  //   }
+                  // },
                   child: const Text("ログイン"),
                 ),
               ),

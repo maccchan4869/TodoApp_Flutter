@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo/repository/todo_list/todo_list_repository.dart';
 import 'package:todo/view/todo_list_page/parts/todo_list_area.dart';
 import 'package:todo/view_model/todo_list_page/todo_list_page_view_model.dart';
 
@@ -14,7 +13,7 @@ class TodoListPageView extends ConsumerWidget {
       appBar: AppBar(
         title: const Text("ToDo一覧画面"),
       ),
-      body: TodoListArea(TodoListPageViewModel(TodoListRepository())),
+      body: TodoListArea(),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {notifier.addTodo()},
         child: const Icon(Icons.add_rounded),

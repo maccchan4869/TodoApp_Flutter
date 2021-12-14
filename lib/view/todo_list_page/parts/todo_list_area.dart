@@ -1,32 +1,23 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo/view_model/todo_list_page/todo_list_page_view_model.dart';
 
-class TodoListArea extends ConsumerStatefulWidget {
-  final TodoListPageViewModel viewModel;
-  const TodoListArea(this.viewModel, {Key? key}) : super(key: key);
+class TodoListArea extends ConsumerWidget {
+  TodoListArea({Key? key}) : super(key: key);
+
+  final Completer<TodoListPageViewModel> _notifier = Completer();
 
   @override
-  ConsumerState<TodoListArea> createState() => _TodoListArea();
-}
-
-class _TodoListArea extends ConsumerState<TodoListArea> {
-  late TodoListPageViewModel _viewModel;
-  int i = 0;
-
-  @override
-  void initState() {
-    _viewModel = widget.viewModel;
-    _viewModel.fetchInitTodoList();
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    a();
+  Widget build(BuildContext context, WidgetRef ref) {
+    if (!_notifier.isCompleted) {
+      _notifier.complete(ref.watch(todoListPageProvider.notifier));
+      _notifier.future.then((notifier) => notifier.fetchInitTodoList());
+    }
     final state = ref.watch(todoListPageProvider);
     return FutureBuilder(
-        future: _viewModel.fetchTodoList(),
+        future: _notifier.future.then((notifier) => notifier.fetchTodoList()),
         builder: (ctx, dataSnapshot) {
           // if (dataSnapshot.connectionState == ConnectionState.waiting) {
           //   // 非同期処理未完了 = 通信中
@@ -43,14 +34,5 @@ class _TodoListArea extends ConsumerState<TodoListArea> {
                 );
               });
         });
-  }
-
-  void a() {
-    if (i == 1) {
-      return;
-    }
-    final notifier = ref.watch(todoListPageProvider.notifier);
-    notifier.fetchInitTodoList();
-    i = 1;
   }
 }

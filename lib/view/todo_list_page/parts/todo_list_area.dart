@@ -18,7 +18,6 @@ class _TodoListArea extends ConsumerState<TodoListArea>
   void initState() {
     super.initState();
     _viewModel = widget.viewModel;
-    _viewModel.fetchTodoList();
   }
 
   @override

@@ -24,11 +24,11 @@ class TodoListRepository {
     final responseJson = json.decode(response) as List;
     final List<TodoData> responseList =
         responseJson.map((i) => TodoData.fromJson(i)).toList();
+    _todoList.clear();
     for (var e in responseList) {
       _todoList
           .add(Todo(id: e.id, description: e.description, isDone: e.isDone));
     }
-    print(_todoList.length);
     return _todoList;
   }
 

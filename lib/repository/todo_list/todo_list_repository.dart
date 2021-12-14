@@ -13,7 +13,12 @@ class TodoListRepository {
   Future<List<Todo>> fetchTodoList() async {
     // Future.delayed を使うと簡単に〇〇秒待つといった処理がかけます。
     await Future<void>.delayed(const Duration(milliseconds: 1000));
+    return _todoList;
+  }
 
+  /// 初期値を取得する。
+  Future<List<Todo>> fetchInitTodoList() async {
+    await Future<void>.delayed(const Duration(milliseconds: 1000));
     const response = '''
     [
       {"id": 1, "description": "洗濯", "isDone": false},
@@ -24,7 +29,6 @@ class TodoListRepository {
     final responseJson = json.decode(response) as List;
     final List<TodoData> responseList =
         responseJson.map((i) => TodoData.fromJson(i)).toList();
-    _todoList.clear();
     for (var e in responseList) {
       _todoList
           .add(Todo(id: e.id, description: e.description, isDone: e.isDone));
@@ -33,7 +37,7 @@ class TodoListRepository {
   }
 
   /// 指定した[Todo]を追加する。
-  void add(Todo todo) => _todoList.add(todo);
+  void addTodo(Todo todo) => _todoList.add(todo);
 
   /// 指定した[Todo]を削除する。
   void remove(Todo todo) => _todoList.remove(todo);

@@ -9,13 +9,14 @@ class TodoListPageView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final notifier = ref.watch(todoListPageProvider.notifier);
     return Scaffold(
       appBar: AppBar(
         title: const Text("ToDo一覧画面"),
       ),
       body: TodoListArea(TodoListPageViewModel(TodoListRepository())),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => {},
+        onPressed: () => {notifier.addTodo()},
         child: const Icon(Icons.add_rounded),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
